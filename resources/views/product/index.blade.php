@@ -12,7 +12,7 @@
         <h2 class="my-6 text-4xl font-semibold text-center font-poppins tracking-widest text-gray-700 dark:text-gray-200">
             <span class="text-primary-100 dark:text-orange">products</span> - Management
         </h2>
-        <a href=""
+        <a href="{{Route('product.create')}}"
             class="px-4 py-2 my-2 bg-orange rounded  text-white hover:bg-primary-100 focus:outline-none transition-colors">
             Add a product
         </a>
@@ -27,6 +27,7 @@
                             <th class="px-4 py-3">ID</th>
                             <th class="px-4 py-3">name</th>
                             <th class="px-4 py-3">description</th>
+                            <th class="px-4 py-3">Image product</th>
                             <th class="px-4 py-3">price</th>
                             <th class="px-4 py-3">action</th>
 
@@ -35,7 +36,7 @@
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
                         @foreach ($products as $product )
-                            
+
                             <tr class="text-gray-700 dark:text-gray-400">
 
                                 <td class="px-4 py-3 text-xs">
@@ -59,6 +60,9 @@
 
                                 </td>
                                 <td class="px-4 py-3 text-xs">
+                                    <img src="assets/images/{{$product->image}}" width="55px">
+                                </td>
+                                <td class="px-4 py-3 text-xs">
 
                                     <span class="px-2 py-1 font-semibold leading-tight rounded-full">
                                         {{$product->price}}
@@ -68,7 +72,7 @@
 
                                 <td class="px-4 py-3">
                                     <div class="flex items-center space-x-4 text-sm">
-                                        <a href="'" method = "post">
+                                        <a href='product/edit/{{$product->id}}' method = "post">
                                             <button
                                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                 aria-label="Edit">
@@ -81,7 +85,7 @@
                                             </button>
                                         </a>
 
-                                        <form action="" method="POST">
+                                        <form action="{{route('product.delete',['product' => $product])}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
