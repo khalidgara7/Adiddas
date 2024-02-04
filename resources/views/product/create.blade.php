@@ -11,6 +11,17 @@
         </h2>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <!-- Form Content -->
+            @if(session("success"))
+                <div class="flex items-center p-4 mt-3 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div>
+                        <span class="font-medium">Success alert!</span> Change a few things up and try submitting again.
+                    </div>
+                </div>
+            @endif
             <div class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
                 <div class="container mx-auto p-4">
                     <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
@@ -20,14 +31,25 @@
                             @csrf
                             @method('post')
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Product Name" class="border p-2 rounded w-full">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Name
+                                        @error("name")
+                                         <div class="text-red-500"> {{ $message }} </div>
+                                        @enderror
+                                    <input type="text" id="name" name="name" placeholder="Product Name" class="border p-2 rounded w-full">
+                                </label>
 
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                @error("description")
+                                <div class="text-red-500"> {{ $message }} </div>
+                                @enderror
                                 <input type="text" id="description" name="description" placeholder="Description" class="border p-2 rounded w-full">
 
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                                 <input type="text" id="price" name="price" placeholder="Price" class="border p-2 rounded w-full">
+                                @error("price")
+                                <div class="text-red-500"> {{ $message }} </div>
+                                @enderror
 
                                 <select name="user_id">
                                     <option value=""> </option>
@@ -35,6 +57,9 @@
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
+                                @error("user_id")
+                                <div class="text-red-500"> {{ $message }} </div>
+                                @enderror
 
                                 <select name="categorie_id">
                                     <option value=""> </option>
@@ -42,17 +67,25 @@
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                                @error("categorie_id")
+                                <div class="text-red-500"> {{ $message }} </div>
+                                @enderror
 
                                 <div class="form-group">
                                     <label> Image </label>
                                     <input type="file" class="form-control" name="image_path">
                                 </div>
+                                @error("image_path")
+                                <div class="text-red-500"> {{ $message }} </div>
+                                @enderror
 
                             </div>
 
                             <div class="mb-4">
                                 <button type="submit" class="px-4 py-2 bg-primary-100 rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Confirm And Submit</button>
-                                <button type="button" class="px-4 py-2 bg-orange rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Cancel</button>
+                                <a href="/product">
+                                    <button type="button" class="px-4 py-2 bg-orange rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Cancel</button>
+                                </a>
                             </div>
                         </form>
                     </div>

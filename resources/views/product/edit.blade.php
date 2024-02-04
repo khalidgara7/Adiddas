@@ -36,7 +36,7 @@
                         <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
                             <h1 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Product Data</h1>
                             <p class="text-gray-600 dark:text-gray-300 mb-6">Here you can edit product's informations.</p>
-                            <form action="product/update" method="POST">
+                            <form action="{{ route('product.update',$product->id) }}" method="POST"  enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="mb-4">
@@ -45,7 +45,7 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                     <input type="text" placeholder="product Name" name="name" value="{{$product->name}}"
                                            class="border p-2 rounded w-full">
-                                    <input type="text" placeholder="description" name="description" value="{{$product->description}}"
+                                    <input type="textarea" placeholder="description" name="description" value="{{$product->description}}"
                                            class="border p-2 rounded w-full">
                                     <input type="text" placeholder="price" name="price" value="{{$product->price}}"
                                            class="border p-2 rounded w-full">
@@ -61,6 +61,11 @@
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                    <td class="px-4 py-3 text-xs">
+                                        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Image</label>
+                                        <img src="{{ asset('storage/images/products/' . $product->image) }}" width="55px" alt="Current Image">
+                                        <label for="new_image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Image</label>
+                                        <input type="file" name="image_path" class="border p-2 rounded w-full">                                    </td>
                                 </div>
 
                                 <div class="mb-4">
@@ -70,10 +75,9 @@
                                         Confirm And Submit
                                     </button>
 
-                                    <button type="button"
-                                        class="px-4 py-2 bg-orange rounded  text-white hover:bg-blue-600 focus:outline-none transition-colors">
-                                        Cancel
-                                    </button>
+                                    <a href="/product">
+                                        <button type="button" class="px-4 py-2 bg-orange rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Cancel</button>
+                                    </a>
                                 </div>
 
 

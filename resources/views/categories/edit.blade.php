@@ -51,10 +51,9 @@
                                         Confirm And Submit
                                     </button>
 
-                                    <button type="button"
-                                        class="px-4 py-2 bg-orange rounded  text-white hover:bg-blue-600 focus:outline-none transition-colors">
-                                        Cancel
-                                    </button>
+                                    <a href="/">
+                                        <button type="button" class="px-4 py-2 bg-orange rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Cancel</button>
+                                    </a>
                                 </div>
 
 

@@ -18,7 +18,7 @@
         </a>
 
 
-        <div class="w-full py-2 overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full py-2 my-4 overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
                     <thead>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Categorie;
 use App\Models\Product;
 use App\Models\User;
+use Faker\Core\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -25,7 +27,6 @@ class ProductController extends Controller
     public function store(Request $request){
 
         $request->validate([
-
             "name" => "required|max:255",
             "description" => "required",
             "price" => "required",
@@ -34,13 +35,12 @@ class ProductController extends Controller
             "image_path" => 'required||image|mimes:png,jpg,jpeg,gif,svg|max:1000'
         ]);
 
-        if ($image = $request->file('image_path')) {
 
-            $destinationPath = 'assets/images/';
-            $productImage = date('YmdHis').".".$image->getClientOriginalExtension();
-            $image->move($destinationPath, $productImage);
-            $request['image_path'] = $productImage;
-        }
+        $destinationPath = 'public/images/products';
+        $extension = $request->file("image_path")->getClientOriginalExtension();
+        $newFilename = date('YmdHism') . "." . $extension;
+        $request->file("image_path")->storeAs($destinationPath, $newFilename);
+
 
         Product::create([
             'name' => $request->name,
@@ -48,10 +48,9 @@ class ProductController extends Controller
             'price'=> $request->price,
             'user_id'=> $request->user_id,
             'categorie_id'=> $request->categorie_id,
-            'image' => $productImage
-
+            'image' => $newFilename
         ]);
-        return redirect("/product")->with("success"," product add");
+        return redirect("/product")->with("success","Product has been saved");
     }
      public function delete(Product $product)
      {
@@ -75,19 +74,41 @@ class ProductController extends Controller
          return view("product.edit",compact("users","product","categories", "user","categorie"));
      }
 
-     public function update(Request $request, Product $product){
+    public function update(Request $request, Product $product)
+    {
 
-         $request->validate([
-             "name" => "required|max:255",
-             "description" => "required",
-             "price" => "required",
-             "user_id" => "required",
-             "categorie_id" => "required",
-             "image_path" => 'required||image|mimes:png,jpg,jpeg,gif,svg|max:1000'
-         ]);
-         $product->update($request->all());
-         return redirect("/product")->with("success","product updated");
-     }
+        $request->validate([
+            "name" => "required|max:255",
+            "description" => "required",
+            "price" => "required",
+            "user_id" => "required",
+            "categorie_id" => "required",
+            "image_path" => 'image|mimes:png,jpg,jpeg,gif,svg|max:1000'
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('image_path')) {
+
+            $destinationPath = 'public/images/products';
+            $extension = $request->file("image_path")->getClientOriginalExtension();
+            $newFilename = date('YmdHism') . "." . $extension;
+            $request->file("image_path")->storeAs($destinationPath, $newFilename);
+
+
+            if (Storage::exists('public/images/products/' . $product->image)) {
+                Storage::delete('public/images/products/' . $product->image);
+            }
+
+            // Update product with new image path
+            $product->update(array_merge($request->except('image_path'), ['image' => $newFilename]));
+
+        } else {
+            // Update product without updating the image
+            $product->update($request->except('image_path'));
+        }
+
+        return redirect('/product')->with("success", "Product updated");
+    }
 
 
 

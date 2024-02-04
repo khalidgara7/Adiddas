@@ -42,6 +42,9 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                     <input type="text" placeholder="categorie Name" name="name"
                                         class="border p-2 rounded w-full">
+                                    @error("name")
+                                    <div class="text-red-500"> {{ $message }} </div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-4">
@@ -51,10 +54,9 @@
                                         Confirm And Submit
                                     </button>
 
-                                    <button type="button"
-                                        class="px-4 py-2 bg-orange rounded  text-white hover:bg-blue-600 focus:outline-none transition-colors">
-                                        Cancel
-                                    </button>
+                                    <a href="/">
+                                        <button type="button" class="px-4 py-2 bg-orange rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Cancel</button>
+                                    </a>
                                 </div>
 
 
