@@ -10,7 +10,7 @@ export default {
   },
   plugins: [],
   darkMode: "class",
-  theme: {
+
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
@@ -24,6 +24,5 @@ export default {
 
       }
     },
-  },
 }
 

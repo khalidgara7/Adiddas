@@ -111,5 +111,11 @@ class ProductController extends Controller
     }
 
 
+    public function showdashboard(Request $request)
+    {
+        $products = Product::all();
+        return view('dashboard',compact("products"));
+    }
+
 
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/dashboard', function () {
+    return view('dashboard');
 });
+
+Route::get('/dashboard',[ProductController::class,'showdashboard'])->name('dashboard');
+//->middleware([\App\Http\Middleware\Authenticate::class]);
+
+Route::get('/register',[AuthenticationController::class,'showregistre'])->name('show.register');
+Route::post('/register',[AuthenticationController::class, 'register'])->name('register');
+
+Route::get('/login',[AuthenticationController::class,'showlogin'])->name('show.login');
+Route::post('/login',[AuthenticationController::class,'login'])->name('login');
+
+Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
 
 Route::get('/',[CategorieController::class,'index'])->name('categorie.index');
 Route::get('categorie',[CategorieController::class,'create'])->name('categorie.create');

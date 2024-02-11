@@ -5,7 +5,7 @@
     @include('layouts.head')
 </head>
 <body class="bg-gray-300 dark:bg-gray-900">
-    
+
     <!-- header bar -->
     @include('layouts.main-header')
 

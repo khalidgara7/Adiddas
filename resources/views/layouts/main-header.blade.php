@@ -73,7 +73,7 @@
 
                     </li>
                     <li class=" flex">
-                        <form action="" method="POST">
+                        <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             @method('POST')
                             <button type="submit"
@@ -82,8 +82,6 @@
                                 <span>logout</span>
                             </button>
                         </form>
-
-
                     </li>
                 </ul>
 
@@ -135,7 +133,7 @@
             </li>
 
             <li>
-                <a href=""
+                <a href="{{route('show.login')}}"
                     class="text-white bg-transparent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-2xl text-sm px-4 py-2 text-center   border border-white-900 hover:bg-green-800  dark:focus:ring-blue-800 mx-2">Login</a>
             </li>
         </ul>
