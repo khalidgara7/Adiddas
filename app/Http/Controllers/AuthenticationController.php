@@ -15,6 +15,7 @@ class AuthenticationController extends Controller
 
     public function register(Request $request)
     {
+
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -43,10 +44,10 @@ class AuthenticationController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
-         //   $request->session()->start();
-          //  $request->session()->put("user_id", $user->id);
+            $request->session()->regenerate();
+            $request->session()->put("user", $user);
 
-            return redirect()->intended('/dashboard');
+            return redirect()->route('dashboard');
 
         } else {
             // Authentication failed
@@ -59,9 +60,16 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->forget('logout');
-
+        $request->session()->flush();
+        $request->session()->forget('user_id');
+        $request->session()->invalidate();
         return redirect('/login');
     }
+
+    public function sendemail(Request $request)
+    {
+
+    }
+
 
 }
