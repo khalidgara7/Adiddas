@@ -37,6 +37,7 @@ Route::middleware(['auth.mide'])->group(function (){
     Route::put('product/update/{product}',[ProductController::class,'update'])->name('product.update');
 
 
+
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/adduser', [UserController::class, 'adduser'])->name('create.user');
     Route::post('/adduser', [UserController::class, 'create']);
