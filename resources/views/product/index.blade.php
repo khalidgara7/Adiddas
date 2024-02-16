@@ -117,11 +117,12 @@
 
                             </tr>
                             @endforeach
-
                     </tbody>
                 </table>
+                <div class="my-2">
+                    {{ $products->links() }}
+                </div>
             </div>
-
         </div>
     </main>
 @endsection

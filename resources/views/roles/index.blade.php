@@ -1,18 +1,18 @@
 @extends('layouts.master')
 
 @section('title')
-    Users management
+    Role management
 @endsection
 
 
 @section('content')
     <main id="main" class=" pt-16 px-28">
         <h2 class="my-6 text-4xl font-semibold text-center font-poppins tracking-widest text-gray-700 dark:text-gray-200">
-            <span class="text-primary-100 dark:text-orange">Users</span> - Management
+            <span class="text-primary-100 dark:text-orange">Roles</span> - Management
         </h2>
-        <a href="{{route('create.user')}}"
+        <a href="{{route('create.role')}}"
            class="px-4 py-2 my-2 bg-orange rounded  text-white hover:bg-primary-100 focus:outline-none transition-colors">
-            Add a user
+            Add a role
         </a>
         @if(session("success"))
             <div class="flex items-center p-4 mt-3 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
@@ -35,46 +35,46 @@
                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3">ID</th>
                         <th class="px-4 py-3">name</th>
-                        <th class="px-4 py-3">description</th>
-                        <th class="px-4 py-3">Role</th>
+                        <th class="px-4 py-3">Create At</th>
+                        <th class="px-4 py-3">Updated At</th>
                         <th class="px-4 py-3">action</th>
 
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    @foreach ($users as $user )
+                    @foreach ($roles as $role )
                         <tr class="text-gray-700 dark:text-gray-400">
 
                             <td class="px-4 py-3 text-xs">
                                     <span
                                         class="px-2 py-1 font-semibold leading-tight text-gray-500 rounded-full dark:bg-green-700 dark:text-green-100">
-                                        {{$user->id}}
+                                        {{$role->id}}
                                     </span>
                             </td>
                             <td class="px-4 py-3 text-xs">
 
                                     <span class="px-2 py-1 font-semibold leading-tight rounded-full">
-                                        {{$user->name}}
-                                    </span>
-
-                            </td>
-                            <td class="px-4 py-3 text-xs">
-
-                                    <span class="px-2 py-1 font-semibold leading-tight rounded-full">
-                                        {{$user->email}}
+                                        {{$role->name}}
                                     </span>
 
                             </td>
                             <td class="px-4 py-3 text-xs">
 
                                     <span class="px-2 py-1 font-semibold leading-tight rounded-full">
-                                        {{$user->role->name}}
+                                        {{$role->created_at}}
+                                    </span>
+
+                            </td>
+                            <td class="px-4 py-3 text-xs">
+
+                                    <span class="px-2 py-1 font-semibold leading-tight rounded-full">
+                                        {{$role->updated_at}}
                                     </span>
 
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
-                                    <a href='user/edit/{{$user->id}}' method="post">
+                                    <a href='role/edit/{{$role->id}}' method="post">
                                         <button
                                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                             aria-label="Edit">
@@ -87,7 +87,7 @@
                                         </button>
                                     </a>
 
-                                    <form action="{{route('user.delete',['user' => $user])}}" method="POST">
+                                    <form action="{{route('role.delete',['role' => $role])}}" method="POST">
                                         @csrf
                                         @method("DELETE")
                                         <button type="submit"

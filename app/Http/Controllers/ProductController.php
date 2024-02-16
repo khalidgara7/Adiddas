@@ -11,20 +11,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $products = Product::all();
-        return view("product.index",compact("products"));
+    public function index(Request $request)
+    {
+        $query = $request->get("query");
+        $products = Product::where('name', 'LIKE', "%$query%")->paginate(2);
+        return view("product.index", compact("products"));
     }
 
-    public function create(){
-        //return view("product.create");
+    public function create()
+    {
         $products = Product::all();
         $users = User::all();
         $categories = Categorie::all();
-        return view("product.create",compact("products", 'categories', 'users'));
-}
+        return view("product.create", compact("products", 'categories', 'users'));
+    }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $request->validate([
             "name" => "required|max:255",
@@ -44,35 +47,36 @@ class ProductController extends Controller
 
         Product::create([
             'name' => $request->name,
-            'description'=> $request->description,
-            'price'=> $request->price,
-            'user_id'=> $request->user_id,
-            'categorie_id'=> $request->categorie_id,
+            'description' => $request->description,
+            'price' => $request->price,
+            'user_id' => $request->user_id,
+            'categorie_id' => $request->categorie_id,
             'image' => $newFilename
         ]);
-        return redirect("/product")->with("success","Product has been saved");
+        return redirect("/product")->with("success", "Product has been saved");
     }
-     public function delete(Product $product)
-     {
 
-         $product->delete();
-         return redirect("/product")->with("success", "Product deleted");
+    public function delete(Product $product)
+    {
 
-     }
+        $product->delete();
+        return redirect("/product")->with("success", "Product deleted");
 
-     public function edit(Request $request,string $id)
-     {
+    }
 
-         $product = Product::find($id);
+    public function edit(Request $request, string $id)
+    {
 
-         $users = User::all();
-         $categories = Categorie::all();
+        $product = Product::find($id);
 
-         $user = User::find($product->user_id);
+        $users = User::all();
+        $categories = Categorie::all();
 
-         $categorie = Categorie::find($id);
-         return view("product.edit",compact("users","product","categories", "user","categorie"));
-     }
+        $user = User::find($product->user_id);
+
+        $categorie = Categorie::find($id);
+        return view("product.edit", compact("users", "product", "categories", "user", "categorie"));
+    }
 
     public function update(Request $request, Product $product)
     {
@@ -114,7 +118,7 @@ class ProductController extends Controller
     public function showdashboard(Request $request)
     {
         $products = Product::all();
-        return view('dashboard',compact("products"));
+        return view('dashboard', compact("products"));
     }
 
 

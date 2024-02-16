@@ -31,7 +31,7 @@
                             @csrf
                             @method('post')
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                                     Name
                                         @error("name")
                                          <div class="text-red-500"> {{ $message }} </div>
@@ -39,47 +39,48 @@
                                     <input type="text" id="name" name="name" placeholder="Product Name" class="border p-2 rounded w-full">
                                 </label>
 
-                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">Description</label>
                                 @error("description")
                                 <div class="text-red-500"> {{ $message }} </div>
                                 @enderror
                                 <input type="text" id="description" name="description" placeholder="Description" class="border p-2 rounded w-full">
 
-                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">Price</label>
                                 <input type="text" id="price" name="price" placeholder="Price" class="border p-2 rounded w-full">
                                 @error("price")
                                 <div class="text-red-500"> {{ $message }} </div>
                                 @enderror
-
-                                <select name="user_id">
-                                    <option value=""> </option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error("user_id")
-                                <div class="text-red-500"> {{ $message }} </div>
-                                @enderror
-
-                                <select name="categorie_id">
-                                    <option value=""> </option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error("categorie_id")
-                                <div class="text-red-500"> {{ $message }} </div>
-                                @enderror
-
-                                <div class="form-group">
-                                    <label> Image </label>
-                                    <input type="file" class="form-control" name="image_path">
-                                </div>
-                                @error("image_path")
-                                <div class="text-red-500"> {{ $message }} </div>
-                                @enderror
+                            </div>
+                            <div>
 
                             </div>
+                            <div class="form-group">
+                                <label> Image </label>
+                                <input type="file" class="form-control" name="image_path">
+                            </div>
+                            @error("image_path")
+                            <div class="text-red-500"> {{ $message }} </div>
+                            @enderror
+
+                            <select name="user_id">
+                                <option value=""> Users </option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @error("user_id")
+                            <div class="text-red-500"> {{ $message }} </div>
+                            @enderror
+
+                            <select name="categorie_id">
+                                <option value=""> Categories</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            @error("categorie_id")
+                            <div class="text-red-500"> {{ $message }} </div>
+                            @enderror
 
                             <div class="mb-4">
                                 <button type="submit" class="px-4 py-2 bg-primary-100 rounded text-white hover:bg-blue-600 focus:outline-none transition-colors">Confirm And Submit</button>

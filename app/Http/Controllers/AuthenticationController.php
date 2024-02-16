@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthenticationController extends Controller
 {
@@ -22,7 +25,7 @@ class AuthenticationController extends Controller
             'password' => 'required|min:8',
         ]);
         $data['password'] = Hash::make($data['password']);
-        $data['role_id'] = 2;
+        $data['role_id'] = 1;
 
         User::create($data);
 
@@ -55,7 +58,6 @@ class AuthenticationController extends Controller
         }
     }
 
-
         //logout
 
     public function logout(Request $request)
@@ -66,9 +68,56 @@ class AuthenticationController extends Controller
         return redirect('/login');
     }
 
+    // Forget password
     public function sendemail(Request $request)
     {
+        return view('authentication.restpwd');
+    }
 
+    public function sendResetPwd(Request $request)
+    {
+
+        $user= User::getEmailSingle($request->email);
+        if(!empty($user))
+        {
+            $user->remember_token = str::random(30);
+            $user->save();
+
+            Mail::to($user->email)->send(new ForgetPasswordMail($user));
+            return redirect()->back()->with('success', "please check your email and reset your password");
+        }else{
+            return redirect()->back()->whit('error', "email not found in the system");
+        }
+    }
+
+    public function reset($remember_token)
+    {
+        $user= User::getToken($remember_token);
+        if (!empty($user))
+        {
+            $data['user'] = $user;
+            return view('authentication.reset', $data);
+        }
+        else
+        {
+            abort(404);
+        }
+    }
+
+    public function postrest($token, Request $request)
+    {
+        if ($request->password == $request->ConfirmPassword)
+        {
+            $user = User::getToken($token);
+            $user->password = Hash::make($request->password);
+            $user->remember_token = Str::random(30);
+            $user->save();
+            return redirect(url(''))->with('success', "Password Successfully reset");
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'password and confirm password does not match ');
+        }
     }
 
 

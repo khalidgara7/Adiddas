@@ -4,6 +4,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,9 +41,16 @@ Route::middleware(['auth.mide'])->group(function (){
     Route::get('/adduser', [UserController::class, 'adduser'])->name('create.user');
     Route::post('/adduser', [UserController::class, 'create']);
     Route::delete('/user/delete/{user}', [UserController::class, 'deleteUser'])->name('user.delete');
-
     Route::get('/user/edit/{user}', [UserController::class, 'editUsers'])->name('user.edit');
     Route::put('user/edit/{user}', [UserController::class, 'updateUsers'])->name('user.update');
+
+
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles');
+    Route::get('/addrole', [RoleController::class, 'addrole'])->name('create.role');
+    Route::post('/addrole', [RoleController::class, 'create']);
+    Route::delete('/user/delete/{role}', [RoleController::class, 'deleteRole'])->name('role.delete');
+    Route::get('/role/edit/{role}', [RoleController::class, 'editRoles'])->name('role.edit');
+    Route::put('role/edit/{role}', [RoleController::class, 'updateRoles'])->name('role.update');
 
 });
 
@@ -57,6 +65,9 @@ Route::post('/login',[AuthenticationController::class,'login'])->name('login');
 
 Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
+Route::get('/resetpwd', [AuthenticationController::class,'sendemail']);
+Route::get('/sendresetpwd', [AuthenticationController::class,'sendResetPwd']);
+Route::post('/rest/{token}', [AuthenticationController::class,'postrest']);
 
 
 

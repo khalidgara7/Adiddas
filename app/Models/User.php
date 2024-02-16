@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,6 +44,21 @@ class   User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class,'role_id')
+            ->withDefault(['name' => 'guest']); // if the role_id is null, this array is been returned
+    }
+
+    static public function getEmailSingle($email)
+    {
+        return User::where('email', '=', $email)->first();
+    }
+    static public function getToken($remember_token)
+    {
+        return User::where('$remember_token', '=', $remember_token)->first();
+    }
 
 
 }

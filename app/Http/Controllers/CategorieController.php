@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Categorie::all();
+        $query = $request->get("query");
+        $categories = Categorie::where('name', 'LIKE', "%$query%")->paginate(3);
         return view("categories.index", compact("categories"));
     }
 

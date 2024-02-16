@@ -90,6 +90,9 @@
                         @endforeach
 
                     </tbody>
+                    <div class="my-2">
+                        {{ $categories->links() }}
+                    </div>
                 </table>
             </div>
 
