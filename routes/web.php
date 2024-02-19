@@ -56,7 +56,7 @@ Route::middleware(['auth.mide'])->group(function (){
 });
 
 Route::get('/dashboard',[ProductController::class,'showdashboard'])->name('dashboard');
-
+Route::get('/filter', [ProductController::class, 'filterByCategory']);
 
 Route::get('/register',[AuthenticationController::class,'showregistre'])->name('show.register');
 Route::post('/register',[AuthenticationController::class, 'register'])->name('register');
@@ -66,9 +66,10 @@ Route::post('/login',[AuthenticationController::class,'login'])->name('login');
 
 Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::get('/resetpwd', [AuthenticationController::class,'sendemail']);
-Route::get('/sendresetpwd', [AuthenticationController::class,'sendResetPwd']);
-Route::post('/rest/{token}', [AuthenticationController::class,'postrest']);
+Route::get('/forgetpassword', [AuthenticationController::class,'forgetpassowrdform']);
+Route::Post('/sendforgetpaswword/email', [AuthenticationController::class,'sendResetPwd'])->name('password.sendforgetform');
+Route::get('/resetform/{token}', [AuthenticationController::class,'rest']);
+Route::post('/resetform', [AuthenticationController::class,'postrest'])->name('change.password');
 
 
 

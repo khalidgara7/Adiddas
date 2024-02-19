@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
     //login
     public function showlogin()
     {
-        return view('authentication\login');
+        return view('authentication.login');
     }
 
     public function login(Request $request)
@@ -69,9 +69,9 @@ class AuthenticationController extends Controller
     }
 
     // Forget password
-    public function sendemail(Request $request)
+    public function forgetpassowrdform()
     {
-        return view('authentication.restpwd');
+        return view('authentication.forgetpasswordform');
     }
 
     public function sendResetPwd(Request $request)
@@ -86,17 +86,16 @@ class AuthenticationController extends Controller
             Mail::to($user->email)->send(new ForgetPasswordMail($user));
             return redirect()->back()->with('success', "please check your email and reset your password");
         }else{
-            return redirect()->back()->whit('error', "email not found in the system");
+            return redirect()->back()->with('error', "email not found in the system");
         }
     }
 
-    public function reset($remember_token)
+    public function rest($remember_token)
     {
         $user= User::getToken($remember_token);
         if (!empty($user))
         {
-            $data['user'] = $user;
-            return view('authentication.reset', $data);
+            return view('authentication.reset', compact('user'));
         }
         else
         {
@@ -104,15 +103,15 @@ class AuthenticationController extends Controller
         }
     }
 
-    public function postrest($token, Request $request)
+    public function postrest(Request $request)
     {
         if ($request->password == $request->ConfirmPassword)
         {
-            $user = User::getToken($token);
+            $user = User::getToken($request->remember_token);
             $user->password = Hash::make($request->password);
             $user->remember_token = Str::random(30);
             $user->save();
-            return redirect(url(''))->with('success', "Password Successfully reset");
+            return redirect(url('authentication.login'))->with('success', "Password Successfully reset");
         }
         else
         {

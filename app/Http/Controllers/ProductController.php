@@ -117,10 +117,25 @@ class ProductController extends Controller
 
     public function showdashboard(Request $request)
     {
-
+        $categories = Categorie::all();
         $query = $request->get("query");
         $products = Product::where('name', 'LIKE', "%$query%")->paginate(2);
-        return view('dashboard', compact("products"));
+        return view('dashboard', compact('products', 'categories'));
+    }
+
+
+
+        public function filterByCategory(Request $request)
+    {
+        $categoryId = $request->input('id');
+
+        $products = Product::whereHas('categories', function($query) use ($categoryId) {
+            $query->where('id', $categoryId);
+        })->paginate(10);
+
+        $categories = Categorie::all();
+
+        return view('dashboard', compact('products', 'categories'));
     }
 
 

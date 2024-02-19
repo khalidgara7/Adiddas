@@ -57,7 +57,7 @@ class   User extends Authenticatable
     }
     static public function getToken($remember_token)
     {
-        return User::where('$remember_token', '=', $remember_token)->first();
+        return User::where('remember_token', $remember_token)->first();
     }
 
 
